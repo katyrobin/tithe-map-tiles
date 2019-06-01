@@ -1,0 +1,39 @@
+---
+output: github_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# serving historic maps
+
+```{r}
+library(leaflet)
+library(osmdata)
+pt = "https://katyrobin.github.io/tithe-map-tiles/hereford-many/{z}/{x}/{y}.png"
+h = getbb("hereford, uk", format_out = "sf_polygon")
+leaflet(data = h) %>% 
+  addTiles(group = "2") %>% 
+  # addProviderTiles(leaflet::providers$OpenStreetMap.BlackAndWhite, group = "1") %>% 
+  addTiles(urlTemplate = pt, options = list(tms = "true")) %>% 
+  addPolygons() %>% 
+  setView(
+    lng = sf::st_coordinates(sf::st_centroid(h))[1] + 0.004,
+    lat = sf::st_coordinates(sf::st_centroid(h))[2],
+    zoom = 16)
+```
+
+```{r}
+library(tmap)
+ttm()
+tm_shape(h) +
+  tm_borders() +
+  tm_tiles(server = pt) +
+  tm_tiles(server = c(providers$OpenStreetMap, pt))
+```
