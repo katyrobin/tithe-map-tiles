@@ -22,7 +22,7 @@
                  */
 
                 var mapBounds = new GLatLngBounds(new GLatLng(52.05496382787958, -2.721293091089629), new GLatLng(52.0581268058243, -2.7139448289739256));
-                var mapMinZoom = 5;
+                var mapMinZoom = 15;
                 var mapMaxZoom = 16;
 
                 var opacity = 0.75;
@@ -173,7 +173,7 @@
                       // Bug in the Google Maps: Copyright for Overlay is not correctly displayed
                       var gcr = GMapType.prototype.getCopyrights;
                       GMapType.prototype.getCopyrights = function(bounds,zoom) {
-                          return [""].concat(gcr.call(this,bounds,zoom));
+                          return ["David Lovelace"].concat(gcr.call(this,bounds,zoom));
                       }
 
                       map = new GMap2( document.getElementById("map"), { backgroundColor: '#fff' } );
